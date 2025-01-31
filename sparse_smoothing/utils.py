@@ -242,7 +242,8 @@ def sparse_perturb_multiple(data_idx, pf_minus, pf_plus, n, m, undirected, nsamp
 
     idx_copies = copy_idx(data_idx, n, nsamples, offset_both_idx)
     w_existing = torch.ones_like(idx_copies[0])
-    to_del = torch.cuda.BoolTensor(idx_copies.shape[1]).bernoulli_(pf_minus)
+    #to_del = torch.cuda.BoolTensor(idx_copies.shape[1]).bernoulli_(pf_minus)
+    to_del = torch.BoolTensor(idx_copies.shape[1]).bernoulli_(pf_minus)
     w_existing[to_del] = 0
 
     if offset_both_idx:
