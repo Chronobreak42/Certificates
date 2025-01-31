@@ -15,8 +15,10 @@ class SparseGCNConv(GCNConv):
         super().__init__(in_channels=in_channel, out_channels=out_channel, **kwargs)
 
     def forward(self, x, edge_idx, n, d):
-        x = spmm(x, torch.ones_like(x[0]), n, d, self.weight)
-        edge_idx, norm = gcn_norm(edge_idx, None, x.size(0), self.improved, self.add_self_loops, x.dtype)
+        #x = spmm(x, torch.ones_like(x[0]), n, d, self.weight)
+        x = spmm(x, torch.ones_like(x[0]), n, d, self.lin.weight.T)
+        #edge_idx, norm = gcn_norm(edge_idx, None, x.size(0), self.improved, self.add_self_loops, x.dtype)
+        edge_idx, norm = gcn_norm(edge_idx, None, x.size(0), self.improved, self.add_self_loops)
         return self.propagate(edge_idx, x=x, edge_weight=norm, size=None)
 
 
